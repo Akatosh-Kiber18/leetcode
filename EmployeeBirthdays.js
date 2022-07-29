@@ -17,6 +17,29 @@ const birthdays = [
     },
     {
         name: 'Taras Nacukevich',
+        bDate: '09-21-1996'
+    },
+    {
+        name: 'Denis Zarevich',
+        bDate: '11-22-1986'
+    },{
+        name: 'ALex Pilipenko',
+        bDate: '07-02-1999'
+    },
+    {
+        name: 'Petro Ostapenko',
+        bDate: '08-12-1989'
+    },
+    {
+        name: 'Dima Ostapenko',
+        bDate: '08-14-1992'
+    },
+    {
+        name: 'Ivan Matushenko',
+        bDate: '10-05-2001'
+    },
+    {
+        name: 'Taras Nacukevich',
         bDate: '11-21-1996'
     },
     {
@@ -25,7 +48,7 @@ const birthdays = [
     },
 ]
 
-let employeeBirthdays = (listOfBirthdays) => {
+let employeeBirthdays = (listOfBirthdays,horizon) => {
     let date = new Date();
     let map = new Map();
     let res = '';
@@ -41,7 +64,7 @@ let employeeBirthdays = (listOfBirthdays) => {
         }
     })
     map.forEach((d, m) => {
-        if (monthNames.indexOf(m) - date.getMonth() === 0 || monthNames.indexOf(m) - date.getMonth() === 1) {
+        if (monthNames.indexOf(m) - date.getMonth() <= horizon) {
             d.forEach(b => {
                 let bDate = new Date(b.bDate);
                 if (!res.includes(monthNames[bDate.getMonth()])){
@@ -53,4 +76,4 @@ let employeeBirthdays = (listOfBirthdays) => {
     })
     return res
 }
-console.log(employeeBirthdays(birthdays));
+console.log(employeeBirthdays(birthdays, 0));
