@@ -2,11 +2,11 @@
   "name": "untitled",
   "version": "1.0.0",
   "description": "",
-  "main": "wordsCount.js",
+  "main": "wordsCountTask.js",
   "type": "module",
   "scripts": {
     "test": "mocha test/arrReverse.test.js",
-    "start": "nodemon wordsCount.js"
+    "start": "nodemon wordsCountTask.js"
   },
   "author": "",
   "license": "ISC",

@@ -52,4 +52,4 @@ let sortByCategory = (list) => {
     })
     return map;
 }
-console.log(sortByCategory(testData))
+console.log(checkOut(testData))
