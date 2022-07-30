@@ -36,7 +36,7 @@ function recipePrint(products) {
     let res = '';
 
     sortedCatNames.forEach(c => {
-        res += c.toUpperCase() + "\ntotal: ";
+        res += c.toUpperCase() + "\n   total: ";
         res += categories.get(c).reduce((a, p) => a + p.price, 0) + "\n";
         categories.get(c)
             .sort((a, b) => a.name.localeCompare(b.name))

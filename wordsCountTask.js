@@ -4,7 +4,6 @@ let text = "There are many variations of passages of Lorem Ipsum available, but 
 function countWords(text) {
     let map = new Map();
     text
-        //.replaceAll(/[^a-zA-Z0-9]+/g, ' ')
         .replaceAll(/[,.]+/g, '')
         .toLowerCase()
         .split(' ')
