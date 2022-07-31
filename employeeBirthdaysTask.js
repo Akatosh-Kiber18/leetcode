@@ -1,37 +1,42 @@
 import fs from "fs";
-import path from "path";
 
-let empPath = process.argv[2];
-let horizon = process.argv[3] || 0;
+const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
 
-fs.readFile(empPath, {encoding: 'utf8'}, (err, data) => {
+const empPath = process.argv[2];
+const horizon = process.argv[3] || 0;
 
-    if (err) {
-        console.error(err);
-        return;
-    }
-    let employees = data.split('\n')
-        .filter(Boolean)
-        .map(line => line.split(','))
-        .map(([name, birthday]) => ({name, birthday}))
-
-    employeeBirthdaysTask(employees, horizon);
+readTextFile(empPath, csvContent => {
+    const employees = parseEmployeeFromCsv(csvContent);
+    const monthEmployees = groupEmployeeByBirthdayMonth(employees);
+    const schedule = formatEmployeeBirthdaySchedule(monthEmployees);
+    console.log(schedule);
 });
 
-function employeeBirthdaysTask(listOfBirthdays, horizon) {
-    let date = new Date();
-    let map = new Map();
-    let res = '';
-    const monthNames = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
+function groupEmployeeByBirthdayMonth(employees) {
+    let monthEmployees = new Map();
 
-    monthNames.forEach(mName => map.set(mName, []));
-    listOfBirthdays.forEach(n => {
-        let bDate = new Date(n.birthday)
+    monthNames.forEach(mName => monthEmployees.set(mName, []));
+    employees.forEach(e => {
+        let bDate = new Date(e.birthday)
         let month = monthNames[bDate.getMonth()];
-        map.get(month).push(n);
-    })
+        monthEmployees.get(month).push(e);
+    });
+
+    return monthEmployees;
+}
+
+function parseEmployeeFromCsv(data) {
+    return data.split('\n')
+        .filter(Boolean)
+        .map(line => line.split(','))
+        .map(([name, birthday]) => ({name, birthday}));
+}
+
+function formatEmployeeBirthdaySchedule(monthEmployees) {
+    let date = new Date();
+    let res = '';
     monthNames
         .filter((m, i) => {
             let relativeMonthNumber = i - date.getMonth();
@@ -39,13 +44,28 @@ function employeeBirthdaysTask(listOfBirthdays, horizon) {
         })
         .forEach((m) => {
             res += `${m} ${date.getFullYear()}\n`;
-            map.get(m).forEach(employee => {
+            monthEmployees.get(m).forEach(employee => {
                 const bDate = employee.birthday.split("-")
                 res += `(${bDate[2]}) - ${employee.name} (${date.getFullYear() - bDate[0] + 1} years!)\n`
             })
-            if (map.get(m).length === 0) {
+            if (monthEmployees.get(m).length === 0) {
                 res += 'no employees birthdays in this month =('
             }
         });
-    console.log(res)
+    return res;
+}
+
+function readTextFile(path, onSuccess) {
+    if (!path) {
+        console.error('You should specify a csv file path as an application argument.');
+        return;
+    }
+
+    fs.readFile(empPath, {encoding: 'utf8'}, (err, text) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        onSuccess(text);
+    });
 }

@@ -1,23 +1,32 @@
 import fs from "fs";
+import {Transform} from 'stream'
 
-function textWriter() {
-    const line = process.argv[2]||'';
-   /* const writeStream = fs.createWriteStream("./text.txt");
-    writeStream.write(textCipher(line))*/
-    fs.appendFile("./text.txt", textCipher(line)+'\n', (err) => {
-        if (err) throw err;
-        console.log('line was cipher and saved to file');
-    } )
+const encryptingTransformer = createEncryptingTransformer();
+const outputFile = fs.createWriteStream("./text.txt");
+
+process.stdin
+    .pipe(encryptingTransformer)
+    .pipe(outputFile);
+
+function createEncryptingTransformer() {
+    return new Transform({
+        transform(chunk, encoding, callback) {
+            const encryptedString = textCipher(chunk.toString());
+            callback(null, encryptedString);
+        }
+    });
+
+    function textCipher(text) {
+        return text
+            .trim()
+            .toUpperCase()
+            .split("")
+            .map(c => charToEncodedNumber(c))
+            .join(" ")
+            .trim() + '\n';
+    }
+
+    function charToEncodedNumber(c) {
+        return c === ' ' ? ' ' : c.charCodeAt(0) - 'A'.charCodeAt(0) + 1;
+    }
 }
-
-function textCipher(text) {
-
-    text = text
-        .replaceAll(/[,.]+/g, '')
-        .toUpperCase();
-    const result = text
-        .split("")
-        .map((_, i) => text.charCodeAt(i) - 64 === -32 ? " " : text.charCodeAt(i) - 64)
-    return result.join(" ").trim()
-}
-textWriter();

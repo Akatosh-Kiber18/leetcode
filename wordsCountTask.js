@@ -2,12 +2,14 @@ let text = "There are many variations of passages of Lorem Ipsum available, but 
     " The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."
 
 function countWords(text) {
-    let map = new Map();
+    let wordCounts = new Map();
     text
-        .replaceAll(/[,.]+/g, '')
+        .replaceAll(',', '')
+        .replaceAll('.', '')
         .toLowerCase()
         .split(' ')
-        .forEach(w => map.set(w, (map.get(w)||0) + 1))
-    console.log(map);
+        .forEach(w => wordCounts.set(w, (wordCounts.get(w)||0) + 1))
+    return wordCounts;
 }
-countWords(text)
+
+console.log(countWords(text));

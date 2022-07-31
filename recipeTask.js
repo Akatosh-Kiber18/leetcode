@@ -26,25 +26,23 @@ const products = [
     },
 ]
 
-function recipePrint(products) {
-    let categories = new Map();
-    products.map(p => p.category).forEach(c => categories.set(c, []));
-    products.forEach(p => categories.get(p.category).push(p));
+function printReceipt(products) {
+    let categoryProductLists = new Map();
+    products.map(p => p.category).forEach(c => categoryProductLists.set(c, []));
+    products.forEach(p => categoryProductLists.get(p.category).push(p));
 
-    const sortedCatNames = Array.from(categories.keys()).sort();
-
+    const sortedCatNames = Array.from(categoryProductLists.keys()).sort();
     let res = '';
-
     sortedCatNames.forEach(c => {
         res += c.toUpperCase() + "\n   total: ";
-        res += categories.get(c).reduce((a, p) => a + p.price, 0) + "\n";
-        categories.get(c)
+        res += categoryProductLists.get(c).reduce((a, p) => a + p.price, 0) + "\n";
+        categoryProductLists.get(c)
             .sort((a, b) => a.name.localeCompare(b.name))
             .forEach(p => res += `\t${p.name} - ${p.price}\n`);
     })
     res += "\nTOTAL PRISE: " + products.reduce((t, p) => t + p.price, 0);
 
-    console.log(res);
+    return res;
 }
 
-recipePrint(products);
+console.log(printReceipt(products));
