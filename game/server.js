@@ -1,5 +1,6 @@
 import * as net from "net";
 import {Transform} from "stream";
+import chalk from "chalk";
 
 const clients = [];
 let chatHistory = [];
@@ -14,12 +15,12 @@ let chatHistory = [];
 }*/
 
 const server = net.createServer(function (socket) {
-    socket.write('Connected server\r\n');
+    socket.write(chalk.blue('Connected server\r\n'));
     chatHistory.forEach(user => {
-        socket.write(user.nickname + ": " + user.message +"\n");
+        socket.write(chalk.green(user.nickname) + ": " + user.message +"\n");
     })
 
-    socket.write('Set your nickname: ');
+    socket.write(chalk.blue('Set your nickname: '));
 
     const port = socket.remotePort;
     console.log('Client IP. Port: ', socket.remoteAddress);
@@ -43,7 +44,7 @@ const server = net.createServer(function (socket) {
             chatHistory.push({nickname, message});
             clients.forEach(client => {
                 if (client !== socket) {
-                    client.write(nickname + ": " + message+'\n');
+                    client.write(chalk.red(nickname) + ": " + message+'\n');
                     console.log(chatHistory);
                 }
             })
