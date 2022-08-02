@@ -2,20 +2,30 @@ import * as net from "net";
 import {Transform} from "stream";
 
 const clients = [];
-
-/*
-let chatStory = {
-    name : message
-};
-*/
-
-let nickname = null;
+let chatHistory = [];
+// Vivesti kojnomu novomu userovi history
+/*function prepareMessageToOutput() {
+    return new Transform({
+        transform(chunk, encoding, callback) {
+            const changedMessage = nickname + ': ' + chunk.toString();
+            callback(null, changedMessage);
+        }
+    });
+}*/
 
 const server = net.createServer(function (socket) {
     socket.write('Connected server\r\n');
+    chatHistory.forEach(user => {
+        socket.write(user.nickname + ": " + user.message +"\n");
+    })
+
+    socket.write('Set your nickname: ');
+
     const port = socket.remotePort;
-    console.log('Client IP. Port: ', socket.remoteAddress)
+    console.log('Client IP. Port: ', socket.remoteAddress);
     console.log("Client connected. Port: ", port);
+
+    let nickname = null;
 
     socket.on('close', () => {
         let index = clients.indexOf(socket);
@@ -24,12 +34,20 @@ const server = net.createServer(function (socket) {
     });
 
     clients.push(socket);
+
     socket.on('data', (message) => {
-        clients.forEach(client => {
-            if (client !== socket) {
-                client.write(message);
-            }
-        })
+        message = message.toString().trim();
+        if (nickname === null) {
+            nickname = message;
+        } else {
+            chatHistory.push({nickname, message});
+            clients.forEach(client => {
+                if (client !== socket) {
+                    client.write(nickname + ": " + message+'\n');
+                    console.log(chatHistory);
+                }
+            })
+        }
     });
 
     socket.pipe(process.stdout)
