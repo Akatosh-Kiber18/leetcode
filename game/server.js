@@ -1,18 +1,9 @@
 import * as net from "net";
-import {Transform} from "stream";
 import chalk from "chalk";
+import {diceGame} from "./dice.js";
 
 const clients = [];
 let chatHistory = [];
-// Vivesti kojnomu novomu userovi history
-/*function prepareMessageToOutput() {
-    return new Transform({
-        transform(chunk, encoding, callback) {
-            const changedMessage = nickname + ': ' + chunk.toString();
-            callback(null, changedMessage);
-        }
-    });
-}*/
 
 const server = net.createServer(function (socket) {
     socket.write(chalk.blue('Connected server\r\n'));
