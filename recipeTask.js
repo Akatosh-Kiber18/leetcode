@@ -28,8 +28,11 @@ const products = [
 
 function printReceipt(products) {
     let categoryProductLists = new Map();
-    products.map(p => p.category).forEach(c => categoryProductLists.set(c, []));
-    products.forEach(p => categoryProductLists.get(p.category).push(p));
+    products
+        .map(p => p.category)
+        .forEach(c => categoryProductLists.set(c, []));
+    products
+        .forEach(p => categoryProductLists.get(p.category).push(p));
 
     const sortedCatNames = Array.from(categoryProductLists.keys()).sort();
     let res = '';
