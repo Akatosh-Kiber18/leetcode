@@ -9,10 +9,10 @@ function logRequest({method, url}) {
 const tasks = [{name: 'Get tasks'}, {name: 'Create task'}];
 
 const server = http.createServer((req, res) => {
+    logRequest(req)
+
     const arrPartsOfUrl = req.url.split('?');
     const path = arrPartsOfUrl[0];
-
-    logRequest(req)
 
     if (path === '/tasks') {
         if (req.method === 'GET') {
@@ -56,7 +56,7 @@ const server = http.createServer((req, res) => {
                     'X-Unique-Words-Count': countWordsResElem.CountOfUniqueWords,
                     'X-The-Most-Frequent-Word': countWordsResElem.MostOftenWord
                 })
-                res.end();
+                res.end(JSON.stringify(countWordsResElem.wordCounts));
             })
         } else {
             res.writeHead(404, 'Not Found');

@@ -40,6 +40,7 @@ const server = net.createServer(function (socket) {
                 if (client !== socket) {
                     client.write(chalk.red(nickname) + ": " + message + '\n');
                     console.log(chatHistory);
+
                     if (message.toLowerCase() === "drop") {
                         let res = dropTheDice().toString();
                         client.write(chalk.green(`${nickname} got a ${res}\n`));
@@ -52,17 +53,19 @@ const server = net.createServer(function (socket) {
                             gameHistory.forEach(player => {
                                 if (player.result > maxVal) {
                                     maxVal = player.result;
-                                    winner = player.nickname;
+                                    winner = chalk.red(player.nickname);
                                 } else if (player.result === maxVal) {
                                     winner = "draw"
                                 }
                             })
                             if (winner === "draw") {
-                                socket.write(chalk.green(`Its draw\n`));
-                                client.write(chalk.green(`Its draw\n`));
+                                const logDraw = chalk.green(`Its a draw\n`)
+                                socket.write(logDraw);
+                                client.write(logDraw);
                             } else {
-                                socket.write(chalk.green(`Winner is ${winner} with result: ${maxVal}\n`));
-                                client.write(chalk.green(`You are winner!\n`));
+                                const logWinner = chalk.green(`Winner is ${winner} with result: ${maxVal}\n`)
+                                socket.write(logWinner);
+                                client.write(logWinner);
                             }
                             gameHistory.splice(0, gameHistory.length);
                         }

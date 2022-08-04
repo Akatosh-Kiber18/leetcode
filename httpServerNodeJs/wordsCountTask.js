@@ -18,5 +18,7 @@ export function countWords(text) {
         }
     })
 
-    return {CountOfUniqueWords: couOfUniqueWords, MostOftenWord: word};
+    return {CountOfUniqueWords: couOfUniqueWords, MostOftenWord: word, wordCounts: Object.fromEntries(wordCounts)};
 }
+
+console.log(countWords("some text to loooc asdasd sdsdsdsd fffff ggggg"));
