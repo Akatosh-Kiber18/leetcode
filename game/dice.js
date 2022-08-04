@@ -27,7 +27,7 @@ export function diceGame(player1, player2) {
     }
 }
 
-function dropTheDice() {
+export function dropTheDice() {
     return Math.floor(Math.random() * 6)+1;
 }
 

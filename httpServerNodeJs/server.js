@@ -50,11 +50,11 @@ const server = http.createServer((req, res) => {
             const data = [];
             req.on('data', chunk => data.push(chunk));
             req.on('end', () => {
-                const result = countWords(data.toString())
+                const countWordsResElem = countWords(data.toString())
                 res.writeHead(201, {
                     'Content-Type': 'application/json',
-                    'X-Unique-Words-Count': result.CountOfUniqueWords,
-                    'X-The-Most-frequent-Word': result.MostOftenWord
+                    'X-Unique-Words-Count': countWordsResElem.CountOfUniqueWords,
+                    'X-The-Most-Frequent-Word': countWordsResElem.MostOftenWord
                 })
                 res.end();
             })

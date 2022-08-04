@@ -1,6 +1,7 @@
 export function countWords(text) {
     let wordCounts = new Map();
     text
+        .replaceAll(/  +/g, ' ')
         .replaceAll(',', '')
         .replaceAll('.', '')
         .toLowerCase()
