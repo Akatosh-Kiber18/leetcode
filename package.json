@@ -2,13 +2,13 @@
   "name": "untitled",
   "version": "1.0.0",
   "description": "",
-  "main": "httpServerNodeJs/wordsCountTask.js",
+  "main": "tasksNodeJs/wordsCountTask.js",
   "type": "module",
   "scripts": {
     "test": "mocha test/arrReverse.test.js",
-    "start": "nodemon httpServerNodeJs/serverOnExpress.js"
+    "start": "nodemon server-on-express/server.js"
   },
-  "author": "",
+  "author": "Olexii Palamarchuk",
   "license": "ISC",
   "devDependencies": {
     "mocha": "^10.0.0",

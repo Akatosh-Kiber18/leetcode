@@ -1,6 +1,6 @@
 import http from 'http';
-import {plural} from "./plural.js";
-import {countWords} from "./wordsCountTask.js";
+import {plural} from "../tasksNodeJs/plural.js";
+import {countWords} from "../tasksNodeJs/wordsCountTask.js";
 
 function logRequest({method, url}) {
     console.log(`[${new Date().toISOString()}] ${method} ${url}`)

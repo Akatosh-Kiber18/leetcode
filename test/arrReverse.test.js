@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import {rotate} from "../arrReverse.js";
+import {rotate} from "../tasksNodeJs/arrReverse.js";
 describe('Array rotate', function () {
         it('test1', function () {
             assert.deepEqual(rotate([[1,2,3],[4,5,6],[7,8,9]]), [[7,4,1],[8,5,2],[9,6,3]] );
