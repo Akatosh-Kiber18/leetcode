@@ -1,4 +1,5 @@
 import express from "express";
+
 export const router = express.Router();
 
 const inc = (init = 0) => () => ++init
@@ -87,7 +88,7 @@ router.delete('/lists/:id/tasks/:index', (req, res) => {
     const taskId = parseInt(req.params.index);
     const task = list.tasks.find(t => t.index === taskId);
     if (task) {
-        list.tasks.splice(,1)
+        list.tasks.splice(taskId - 1, 1)
         res.json(list.tasks);
     } else {
         res.status(404).json({error: 'Task not found'});
