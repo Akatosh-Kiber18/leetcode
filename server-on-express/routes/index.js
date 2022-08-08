@@ -6,6 +6,22 @@ const inc = (init = 0) => () => ++init
 const genListId = inc();
 const genTaskId = inc();
 
+/*
+const lists = [
+    {
+        id: genListId(),
+        listName: 'Tomorrow tasks',
+    }
+]
+
+const tasks = [
+    {
+        id: lists[0].id,
+        name: 'Buy some milk',
+        done: false
+}
+]*/
+
 const lists = [
     {
         id: genListId(),
